@@ -15,20 +15,20 @@
 #include <stddef.h>
 #include <unistd.h>
 
-static	*read_line(int fd, char **overlap, char **buffer)
+static char	*read_line(int fd,char **overlap , char **buffer)
 {
 	char		*tmp;
-	ssize_t		bytes_read;
+	int		bytes_read;
 
 	bytes_read = 1; // Truquito para el while (futuro)
-	while (!(ft_strchar(overlap, '\n')) && bytes_read >= 1)
+	while (bytes_read >= 1)
 	{
 		bytes_read = read(fd, *buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 			return (free_str(overlap), free_str(buffer), NULL);
 		else if (bytes_read > 0)
 		{
-			*buffer[bytes_read] = '\0';
+			(*buffer)[bytes_read] = '\0';
 			tmp = ft_strjoin(*overlap, *buffer);
 			if (!tmp)
 				return (free_str(overlap), free_str(buffer), NULL);
@@ -43,18 +43,24 @@ char	*get_next_line(int fd)
 {
 	static char	*overlap;
 	char		*buffer;
+	char		*line;
+	char		*noverlap;
 
-	// Inicialización del buffer;
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	buffer[BUFFER_SIZE] = '\0';
 
-	if (read_line(fd, &overlap, &buffer) == NULL)
+	if (read_line(fd,&overlap , &buffer) == NULL)
+	{
+		free_str(&buffer);
 		return (NULL);
-	buffer = ft_save_line(overlap);
-	overlap = ft_save_overlap(overlap);
-	// TODO
-	return (buffer);
+	}
+	free_str(&buffer);
+	line = ft_save_line(overlap);
+	noverlap = ft_save_overlap(overlap);
+	free_str(&overlap);
+	overlap = noverlap;
+	return (line);
 }
 

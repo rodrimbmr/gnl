@@ -21,5 +21,11 @@
 # endif
 
 char	*get_next_line(int fd);
+char	*free_str(char **str);
+char	*ft_save_line(char *overlap);
+char	*ft_save_overlap(char *overlap);
+size_t	ft_strlen(const char *str);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
 
 #endif
