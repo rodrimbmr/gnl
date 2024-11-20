@@ -63,7 +63,9 @@ char	*get_next_line(int fd)
 	if (read_line(fd, &overlap, &buffer) == NULL)
 		return (free_str(&overlap), free_str(&buffer), NULL);
 	free_str(&buffer);
-	line = ft_save_line(overlap);
+	line = ft_save_line(&overlap);
+	if (!overlap)
+		return (NULL);
 	noverlap = ft_save_overlap(overlap);
 	free_str(&overlap);
 	overlap = noverlap;

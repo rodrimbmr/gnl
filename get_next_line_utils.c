@@ -25,26 +25,26 @@ char	*free_str(char **str)
 	return (NULL);
 }
 
-char	*ft_save_line(char *overlap)
+char	*ft_save_line(char **overlap)
 {
 	int		i;
 	char	*res;
 	int		j;
 
-	if (overlap[0] == '\0')
+	if ((*overlap)[0] == '\0')
 		return (NULL);
 	i = 0;
-	while (overlap[i] != '\n' && overlap[i] != '\0')
+	while ((*overlap)[i] != '\n' && (*overlap)[i] != '\0')
 		i++;
-	if (overlap[i] == '\n')
+	if ((*overlap)[i] == '\n')
 		i++;
 	res = malloc(sizeof(char) * (i + 1));
 	if (!res)
-		return (NULL);
+		return (free_str(overlap), NULL);
 	j = 0;
 	while (j < i)
 	{
-		res[j] = overlap[j];
+		res[j] = (*overlap)[j];
 		j++;
 	}
 	res[j] = '\0';
